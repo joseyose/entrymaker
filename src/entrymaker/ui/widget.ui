@@ -46,7 +46,7 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QLabel" name="label_edit">
@@ -139,28 +139,28 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QLineEdit" name="lineedit_tags">
              <property name="placeholderText">
               <string>Separated by commas</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="label">
+            <widget class="QLabel" name="label_tags">
              <property name="text">
               <string>Tags</string>
              </property>
             </widget>
            </item>
            <item row="3" column="0">
-            <widget class="QLabel" name="label_2">
+            <widget class="QLabel" name="label_grokscore">
              <property name="text">
               <string>Grok Score</string>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QSlider" name="horizontalSlider">
+            <widget class="QSlider" name="slider_grokscore">
              <property name="maximum">
               <number>4</number>
              </property>
