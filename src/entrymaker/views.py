@@ -1,6 +1,7 @@
 from ui.widget import Ui_Form
 from PyQt5 import QtWidgets, QtGui  # , QtCore, QtGui
 from pathlib import Path
+from exportmd import ExportMD
 
 WORDWRAP = 80
 
@@ -26,7 +27,7 @@ class Window(QtWidgets.QDialog, Ui_Form):
         self.button_filedialog.clicked.connect(self.load_filedialog)
         self.button_add.clicked.connect(self.add_resource)
         self.button_remove.clicked.connect(self.remove_resource)
-        self.button_export.clicked.connect(self.test)
+        self.button_export.clicked.connect(self.export)
 
         self.combobox_note.setEnabled(False)
         self.lineedit_description.textChanged.connect(
@@ -133,9 +134,25 @@ class Window(QtWidgets.QDialog, Ui_Form):
             update = f"Number of Resources: {len(self.resources)}"
             self.label_numofresources.setText(update)
 
-    def test(self):
+    def export(self):
         # for i in self.resources:
         #     print(i.text())
 
-        a = self.slider_grokscore.value()
-        print(a)
+        # a = self.slider_grokscore.value()
+        # print(a)
+        tags = self.lineedit_tags.text().split(",")
+        # print(tags)
+
+        resources = [i.text() for i in self.resources]
+
+        data = {"source": self.lineedit_source,
+                "note": self.combobox_note.currentText(),
+                "tags": tags,
+                "grok": self.slider_grokscore.value(),
+                "resources": resources,
+                "title": self.lineedit_description,
+                "contents": self.textedit_edit.toPlainText()}
+
+        # print(self.textedit_edit.toPlainText())
+
+        # print(self.combobox_note.currentText())
