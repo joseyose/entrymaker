@@ -145,13 +145,15 @@ class Window(QtWidgets.QDialog, Ui_Form):
 
         resources = [i.text() for i in self.resources]
 
-        data = {"source": self.lineedit_source,
+        data = {"source": self.lineedit_source.text(),
                 "note": self.combobox_note.currentText(),
                 "tags": tags,
-                "grok": self.slider_grokscore.value(),
+                "grok": self.slider_grokscore.value() + 1,
                 "resources": resources,
-                "title": self.lineedit_description,
+                "title": self.lineedit_description.text(),
                 "contents": self.textedit_edit.toPlainText()}
+
+        ExportMD(data).export()
 
         # print(self.textedit_edit.toPlainText())
 

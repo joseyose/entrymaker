@@ -1,6 +1,6 @@
 from pathlib import Path
 from datetime import date
-import pprint
+# import pprint
 
 # temporary info
 # DATA = {"source": r"E:\test\notes",
@@ -15,25 +15,26 @@ import pprint
 # """}
 
 
-class DataStore():
-    def __init__(self):
-        self.data = {"source": r"E:\test\notes",
-                     "note": "python",
-                     "tags": ["python", "programming", "vfx"],
-                     "grok": 4,
-                     "resources": ["path1", "path2"],
-                     "title": "How do I that thing I've been meaning",
-                     "contents":
-"""It really is incredible how long it took me to appreciate this feature of not only python but programming in general. It's also so easy to setup with python. 
-Anyways, all you have to do is: 
-`python -m venv /path/to/new/virtual/environment`
+# class DataStore():
+#     def __init__(self):
+#         self.data = {"source": r"E:\test\notes",
+#                      "note": "python",
+#                      "tags": ["python", "programming", "vfx"],
+#                      "grok": 4,
+#                      "resources": ["path1", "path2"],
+#                      "title": "How do I that thing I've been meaning",
+#                      "contents":
+# """It really is incredible how long it took me to appreciate this feature of not only python but programming in general. It's also so easy to setup with python. 
+# Anyways, all you have to do is: 
+# `python -m venv /path/to/new/virtual/environment`
 
-You can have a directory full of environments that you might you know share across different projects or you could simply have one at the root of any project you are working on."
-                     """}
+# You can have a directory full of environments that you might you know share across different projects or you could simply have one at the root of any project you are working on."
+#                      """}
 
 
-class ExportMD(DataStore):
-    def __init__(self):
+class ExportMD():
+    def __init__(self, data):
+        self.data = data
         super(ExportMD, self).__init__()
 
     def export(self):
@@ -66,6 +67,7 @@ class ExportMD(DataStore):
                 f.write(f"[Resource]({i})\n")
 
             f.write(note)
+            f.write("\n")
 
     def parse_summary(self):
         today = date.today()
