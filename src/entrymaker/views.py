@@ -2,6 +2,7 @@ from ui.widget import Ui_Form
 from PyQt5 import QtWidgets, QtGui  # , QtCore, QtGui
 from pathlib import Path
 from exportmd import ExportMD
+from sys import platform
 
 WORDWRAP = 80
 
@@ -74,18 +75,26 @@ class Window(QtWidgets.QDialog, Ui_Form):
             self.populate_combobox()
 
     def populate_combobox(self):
+        # Clear it first
+        self.combobox_note.clear()
         # Good god this is a much shorter version of this, but it's basically
         # doing the same thing :)
         # md = Path(self.lineedit_source.text()).rglob("*.md")
         notes = [""]
 
         for path in Path(self.lineedit_source.text()).rglob("*.md"):
-            path = str(path).split("\\")[-1].split(".")[0]
+            if platform == "win32":
+                path = str(path).split("\\")[-1].split(".")[0]
+            else:
+                path = str(path).split("/")[-1].split(".")[0]
+
             notes.append(path)
 
-        notes.sort()
-        self.combobox_note.setEnabled(True)
-        self.combobox_note.addItems(notes)
+        # Only modify this if we actually find markdown files
+        if len(notes) >= 2:
+            notes.sort()
+            self.combobox_note.setEnabled(True)
+            self.combobox_note.addItems(notes)
 
     def add_resource(self):
         count = self.grid_resources.count()
