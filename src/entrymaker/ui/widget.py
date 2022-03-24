@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\src\entrymaker\ui\widget.ui'
+# Form implementation generated from reading ui file 'widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -57,9 +57,12 @@ class Ui_Form(object):
         self.textedit_preview.setObjectName("textedit_preview")
         self.verticalLayout_2.addWidget(self.textedit_preview)
         self.gridLayout_7.addWidget(self.splitter, 2, 0, 1, 2)
+        self.button_reset = QtWidgets.QPushButton(Form)
+        self.button_reset.setObjectName("button_reset")
+        self.gridLayout_7.addWidget(self.button_reset, 3, 1, 1, 1)
         self.gridLayout_8.addLayout(self.gridLayout_7, 0, 1, 1, 1)
         self.dock_properties = QtWidgets.QDockWidget(Form)
-        self.dock_properties.setMinimumSize(QtCore.QSize(420, 305))
+        self.dock_properties.setMinimumSize(QtCore.QSize(420, 306))
         self.dock_properties.setMaximumSize(QtCore.QSize(420, 524287))
         self.dock_properties.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
         self.dock_properties.setObjectName("dock_properties")
@@ -116,7 +119,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 378, 379))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 374, 358))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_5 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_5.setObjectName("gridLayout_5")
@@ -159,6 +162,7 @@ class Ui_Form(object):
         self.button_export.setText(_translate("Form", "Export"))
         self.label_edit.setText(_translate("Form", "Edit"))
         self.label_preview.setText(_translate("Form", "Preview"))
+        self.button_reset.setText(_translate("Form", "Reset"))
         self.dock_properties.setWindowTitle(_translate("Form", "Properties"))
         self.label_note.setText(_translate("Form", "Note"))
         self.label_source.setText(_translate("Form", "Source"))

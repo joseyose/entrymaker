@@ -53,6 +53,7 @@ class Window(QtWidgets.QDialog, Ui_Form):
         self.button_add.clicked.connect(self.add_resource)
         self.button_remove.clicked.connect(self.remove_resource)
         self.button_export.clicked.connect(self.export)
+        self.button_reset.clicked.connect(self.reset_ui)
 
         # Enable buttons
         self.button_export.setEnabled(False)
@@ -158,7 +159,7 @@ class Window(QtWidgets.QDialog, Ui_Form):
     def set_markdown(self):
         text = self.textedit_edit.toPlainText()
         self.textedit_preview.setMarkdown(text)
-
+        
     def remove_resource(self):
         # I don't have this working yet
         count = self.grid_resources.count()
@@ -201,3 +202,16 @@ class Window(QtWidgets.QDialog, Ui_Form):
         # print(self.textedit_edit.toPlainText())
 
         # print(self.combobox_note.currentText())
+
+    def reset_ui(self):
+        self.textedit_edit.clear()
+        self.textedit_preview.clear()
+        self.lineedit_description.clear()
+
+        # Deal with the resources
+        num = self.grid_resources.count()
+        while (num > 1):
+            self.remove_resource()
+            num -= 1
+            
+        self.resources[0].clear()
