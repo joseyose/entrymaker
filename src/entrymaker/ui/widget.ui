@@ -76,6 +76,13 @@
        </widget>
       </widget>
      </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="button_reset">
+       <property name="text">
+        <string>Reset</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="0" column="0">
@@ -83,7 +90,7 @@
      <property name="minimumSize">
       <size>
        <width>420</width>
-       <height>305</height>
+       <height>306</height>
       </size>
      </property>
      <property name="maximumSize">
@@ -207,8 +214,8 @@
                   <rect>
                    <x>0</x>
                    <y>0</y>
-                   <width>378</width>
-                   <height>379</height>
+                   <width>374</width>
+                   <height>358</height>
                   </rect>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_5">

@@ -1,6 +1,8 @@
 from ui.widget import Ui_Form
 from PyQt5 import QtWidgets, QtGui  # , QtCore, QtGui
 from pathlib import Path
+from exportmd import ExportMD
+from sys import platform
 
 WORDWRAP = 80
 
@@ -12,6 +14,30 @@ class Window(QtWidgets.QDialog, Ui_Form):
         self._setupUI()
         self.setWindowTitle("Entry Maker :D v0.1.0")
         self.configure_ui()
+
+        # Add this to the configur ui section
+        self.textedit_preview.setReadOnly(True)
+        self.lineedit_description.textChanged.connect(self.test)
+        self.combobox_note.activated.connect(self.test2)
+
+    def test2(self):
+        print("hello")
+        self.lineedit_description.setEnabled(True)
+        self.textedit_edit.setEnabled(True)
+        self.textedit_preview.setEnabled(True)
+        self.lineedit_tags.setEnabled(True)
+        self.button_add.setEnabled(True)
+        self.button_remove.setEnabled(True)
+        self.lineedit_resource1.setEnabled(True)
+        self.slider_grokscore.setEnabled(True)
+
+    # TODO: Refactor this
+    def test(self):
+        count = len(self.lineedit_description.text())
+        if count == 0:
+            self.button_export.setEnabled(False)
+        else:
+            self.button_export.setEnabled(True)
 
     def _setupUI(self):
         self.setupUi(self)
@@ -26,9 +52,20 @@ class Window(QtWidgets.QDialog, Ui_Form):
         self.button_filedialog.clicked.connect(self.load_filedialog)
         self.button_add.clicked.connect(self.add_resource)
         self.button_remove.clicked.connect(self.remove_resource)
-        self.button_export.clicked.connect(self.test)
+        self.button_export.clicked.connect(self.export)
+        self.button_reset.clicked.connect(self.reset_ui)
 
+        # Enable buttons
+        self.button_export.setEnabled(False)
         self.combobox_note.setEnabled(False)
+        self.lineedit_description.setEnabled(False)
+        self.textedit_edit.setEnabled(False)
+        self.textedit_preview.setEnabled(False)
+        self.lineedit_tags.setEnabled(False)
+        self.lineedit_resource1.setEnabled(False)
+        self.button_add.setEnabled(False)
+        self.button_remove.setEnabled(False)
+        self.slider_grokscore.setEnabled(False)
         self.lineedit_description.textChanged.connect(
             self.changecolorpastlimit)
         self.textedit_edit.textChanged.connect(self.set_markdown)
@@ -73,18 +110,26 @@ class Window(QtWidgets.QDialog, Ui_Form):
             self.populate_combobox()
 
     def populate_combobox(self):
+        # Clear it first
+        self.combobox_note.clear()
         # Good god this is a much shorter version of this, but it's basically
         # doing the same thing :)
         # md = Path(self.lineedit_source.text()).rglob("*.md")
         notes = [""]
 
         for path in Path(self.lineedit_source.text()).rglob("*.md"):
-            path = str(path).split("\\")[-1].split(".")[0]
+            if platform == "win32":
+                path = str(path).split("\\")[-1].split(".")[0]
+            else:
+                path = str(path).split("/")[-1].split(".")[0]
+
             notes.append(path)
 
-        notes.sort()
-        self.combobox_note.setEnabled(True)
-        self.combobox_note.addItems(notes)
+        # Only modify this if we actually find markdown files
+        if len(notes) >= 2:
+            notes.sort()
+            self.combobox_note.setEnabled(True)
+            self.combobox_note.addItems(notes)
 
     def add_resource(self):
         count = self.grid_resources.count()
@@ -114,7 +159,7 @@ class Window(QtWidgets.QDialog, Ui_Form):
     def set_markdown(self):
         text = self.textedit_edit.toPlainText()
         self.textedit_preview.setMarkdown(text)
-
+        
     def remove_resource(self):
         # I don't have this working yet
         count = self.grid_resources.count()
@@ -133,9 +178,40 @@ class Window(QtWidgets.QDialog, Ui_Form):
             update = f"Number of Resources: {len(self.resources)}"
             self.label_numofresources.setText(update)
 
-    def test(self):
+    def export(self):
         # for i in self.resources:
         #     print(i.text())
 
-        a = self.slider_grokscore.value()
-        print(a)
+        # a = self.slider_grokscore.value()
+        # print(a)
+        tags = self.lineedit_tags.text().split(",")
+        # print(tags)
+
+        resources = [i.text() for i in self.resources]
+
+        data = {"source": self.lineedit_source.text(),
+                "note": self.combobox_note.currentText(),
+                "tags": tags,
+                "grok": self.slider_grokscore.value() + 1,
+                "resources": resources,
+                "title": self.lineedit_description.text(),
+                "contents": self.textedit_edit.toPlainText()}
+
+        ExportMD(data).export()
+
+        # print(self.textedit_edit.toPlainText())
+
+        # print(self.combobox_note.currentText())
+
+    def reset_ui(self):
+        self.textedit_edit.clear()
+        self.textedit_preview.clear()
+        self.lineedit_description.clear()
+
+        # Deal with the resources
+        num = self.grid_resources.count()
+        while (num > 1):
+            self.remove_resource()
+            num -= 1
+            
+        self.resources[0].clear()
