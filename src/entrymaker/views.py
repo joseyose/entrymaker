@@ -93,13 +93,19 @@ class Window(QtWidgets.QDialog, Ui_Form):
         # check for existing config file
         self.check_init_dir()
 
+    def update_init_dir(self):
+        newpath = self.lineedit_source.text()
+        dirfile = Path("./bin/init.txt")
+
+        with open(dirfile, "w") as f:
+            f.write(newpath)
+
     def check_init_dir(self):
         dirfile = Path("./bin/init.txt")
 
         if dirfile.exists():
             with open(dirfile, "r") as f:
                 notes_path = f.read().splitlines()[0]
-                print(notes_path)
                 self.lineedit_source.setText(notes_path)
                 self.populate_combobox()
         else:
@@ -200,6 +206,8 @@ class Window(QtWidgets.QDialog, Ui_Form):
                 "contents": self.textedit_edit.toPlainText()}
 
         ExportMD(data).export()
+
+        self.update_init_dir()
 
     def reset_ui(self):
         self.textedit_edit.clear()
