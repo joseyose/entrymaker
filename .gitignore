@@ -2,3 +2,4 @@
 .vscode/*
 **/**.pyc
 **/entrymaker.egg-info/*
+**/bin/*
