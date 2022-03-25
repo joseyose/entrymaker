@@ -70,7 +70,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QTextEdit" name="textedit_preview"/>
+          <widget class="QTextEdit" name="textedit_preview">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -284,6 +288,22 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineedit_source</tabstop>
+  <tabstop>button_filedialog</tabstop>
+  <tabstop>combobox_note</tabstop>
+  <tabstop>lineedit_tags</tabstop>
+  <tabstop>slider_grokscore</tabstop>
+  <tabstop>button_add</tabstop>
+  <tabstop>button_remove</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>lineedit_resource1</tabstop>
+  <tabstop>lineedit_description</tabstop>
+  <tabstop>textedit_edit</tabstop>
+  <tabstop>textedit_preview</tabstop>
+  <tabstop>button_export</tabstop>
+  <tabstop>button_reset</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

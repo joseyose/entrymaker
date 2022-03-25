@@ -54,6 +54,7 @@ class Ui_Form(object):
         self.label_preview.setObjectName("label_preview")
         self.verticalLayout_2.addWidget(self.label_preview)
         self.textedit_preview = QtWidgets.QTextEdit(self.layoutWidget1)
+        self.textedit_preview.setReadOnly(True)
         self.textedit_preview.setObjectName("textedit_preview")
         self.verticalLayout_2.addWidget(self.textedit_preview)
         self.gridLayout_7.addWidget(self.splitter, 2, 0, 1, 2)
@@ -153,6 +154,19 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+        Form.setTabOrder(self.lineedit_source, self.button_filedialog)
+        Form.setTabOrder(self.button_filedialog, self.combobox_note)
+        Form.setTabOrder(self.combobox_note, self.lineedit_tags)
+        Form.setTabOrder(self.lineedit_tags, self.slider_grokscore)
+        Form.setTabOrder(self.slider_grokscore, self.button_add)
+        Form.setTabOrder(self.button_add, self.button_remove)
+        Form.setTabOrder(self.button_remove, self.scrollArea)
+        Form.setTabOrder(self.scrollArea, self.lineedit_resource1)
+        Form.setTabOrder(self.lineedit_resource1, self.lineedit_description)
+        Form.setTabOrder(self.lineedit_description, self.textedit_edit)
+        Form.setTabOrder(self.textedit_edit, self.textedit_preview)
+        Form.setTabOrder(self.textedit_preview, self.button_export)
+        Form.setTabOrder(self.button_export, self.button_reset)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate

@@ -12,16 +12,10 @@ class Window(QtWidgets.QDialog, Ui_Form):
         super(Window, self).__init__()
 
         self._setupUI()
-        self.setWindowTitle("Entry Maker :D v0.1.0")
+        self.setWindowTitle("entry_maker::1.0")
         self.configure_ui()
 
-        # Add this to the configur ui section
-        self.textedit_preview.setReadOnly(True)
-        self.lineedit_description.textChanged.connect(self.test)
-        self.combobox_note.activated.connect(self.test2)
-
-    def test2(self):
-        print("hello")
+    def enable_fields(self):
         self.lineedit_description.setEnabled(True)
         self.textedit_edit.setEnabled(True)
         self.textedit_preview.setEnabled(True)
@@ -30,9 +24,9 @@ class Window(QtWidgets.QDialog, Ui_Form):
         self.button_remove.setEnabled(True)
         self.lineedit_resource1.setEnabled(True)
         self.slider_grokscore.setEnabled(True)
+        self.button_reset.setEnabled(True)
 
-    # TODO: Refactor this
-    def test(self):
+    def activate_export(self):
         count = len(self.lineedit_description.text())
         if count == 0:
             self.button_export.setEnabled(False)
@@ -42,10 +36,9 @@ class Window(QtWidgets.QDialog, Ui_Form):
     def _setupUI(self):
         self.setupUi(self)
         self.resources = [self.lineedit_resource1]
-        # self.resources.append(self.lineedit_resource1)
-        # self.label_numofresources.setText(
-        #     f"Number of Resources: {len(self.resources)}")
         self.update_resourcescount()
+
+        
 
     def configure_ui(self):
         # BUTTONS CLICKED
@@ -57,6 +50,7 @@ class Window(QtWidgets.QDialog, Ui_Form):
 
         # Enable buttons
         self.button_export.setEnabled(False)
+        self.button_reset.setEnabled(False)
         self.combobox_note.setEnabled(False)
         self.lineedit_description.setEnabled(False)
         self.textedit_edit.setEnabled(False)
@@ -66,8 +60,7 @@ class Window(QtWidgets.QDialog, Ui_Form):
         self.button_add.setEnabled(False)
         self.button_remove.setEnabled(False)
         self.slider_grokscore.setEnabled(False)
-        self.lineedit_description.textChanged.connect(
-            self.changecolorpastlimit)
+        self.lineedit_description.textChanged.connect(self.changecolorpastlimit)
         self.textedit_edit.textChanged.connect(self.set_markdown)
 
         # Setup line wraps for the preview
@@ -94,6 +87,26 @@ class Window(QtWidgets.QDialog, Ui_Form):
         # QtGui.QFontMetricsF(
         # self.plainTextEdit.font()).horizontalAdvance(' ') * 4)
 
+        # This was in the constructor prior to this
+        self.textedit_preview.setReadOnly(True)
+        self.lineedit_description.textChanged.connect(self.activate_export)
+        self.combobox_note.activated.connect(self.enable_fields)
+
+        # check for existing config file
+        self.check_init_dir()
+
+    def check_init_dir(self):
+        dirfile = Path("./bin/init.txt")
+
+        if dirfile.exists():
+            with open(dirfile, "r") as f:
+                notes_path = f.read().splitlines()[0]
+                print(notes_path)
+                self.lineedit_source.setText(notes_path)
+                self.populate_combobox()
+        else:
+            print("Init file does not exist")
+                    
     def load_filedialog(self):
         if self.lineedit_source.text():
             initDir = self.lineedit_source.text()
@@ -118,6 +131,7 @@ class Window(QtWidgets.QDialog, Ui_Form):
         notes = [""]
 
         for path in Path(self.lineedit_source.text()).rglob("*.md"):
+            # make sure to check which os I'm launching from 
             if platform == "win32":
                 path = str(path).split("\\")[-1].split(".")[0]
             else:
@@ -140,11 +154,8 @@ class Window(QtWidgets.QDialog, Ui_Form):
 
             self.grid_resources.addWidget(label, count, 0)
             self.grid_resources.addWidget(edit, count, 1)
-            # count += 1
-
+        
             self.resources.append(edit)
-            # print(self.resources)
-
             label.setText(f"Resource #{len(self.resources)}")
 
             self.update_resourcescount()
@@ -161,7 +172,6 @@ class Window(QtWidgets.QDialog, Ui_Form):
         self.textedit_preview.setMarkdown(text)
         
     def remove_resource(self):
-        # I don't have this working yet
         count = self.grid_resources.count()
         if count > 2:
             label = self.grid_resources.itemAt(count - 2)
@@ -179,13 +189,7 @@ class Window(QtWidgets.QDialog, Ui_Form):
             self.label_numofresources.setText(update)
 
     def export(self):
-        # for i in self.resources:
-        #     print(i.text())
-
-        # a = self.slider_grokscore.value()
-        # print(a)
         tags = self.lineedit_tags.text().split(",")
-        # print(tags)
 
         resources = [i.text() for i in self.resources]
 
@@ -199,15 +203,12 @@ class Window(QtWidgets.QDialog, Ui_Form):
 
         ExportMD(data).export()
 
-        # print(self.textedit_edit.toPlainText())
-
-        # print(self.combobox_note.currentText())
-
     def reset_ui(self):
         self.textedit_edit.clear()
         self.textedit_preview.clear()
         self.lineedit_description.clear()
-
+        self.lineedit_tags.clear()
+        
         # Deal with the resources
         num = self.grid_resources.count()
         while (num > 1):
