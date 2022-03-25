@@ -38,8 +38,6 @@ class Window(QtWidgets.QDialog, Ui_Form):
         self.resources = [self.lineedit_resource1]
         self.update_resourcescount()
 
-        
-
     def configure_ui(self):
         # BUTTONS CLICKED
         self.button_filedialog.clicked.connect(self.load_filedialog)
@@ -216,3 +214,4 @@ class Window(QtWidgets.QDialog, Ui_Form):
             num -= 1
             
         self.resources[0].clear()
+
