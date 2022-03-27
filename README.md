@@ -20,5 +20,21 @@ where I re-google things I've already done in the past, and sometimes those sear
 a while to actually get to the useful knowledge. With this approach I know I'm able to start
 somewhere as opposed to just blindly googling again.
 
+## Requirements
+- `python == 3.8`
+- `pyqt5 == 5.15.4`
+
+## Setup
+```
+# Install Dependencies
+pip3 install requirements.txt
+```
+
+## Usage
+`python3 ./src/entrymaker/app.py`
+
 ## Screenshots
 ![](./media/ui_001.png)
+
+## License
+See the [LICENSE](https://github.com/joseyose/entrymaker/blob/main/LICENSE) file for license rights and limitations (MIT).
