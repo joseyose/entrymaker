@@ -78,7 +78,10 @@ class ExportMD():
 
         row = f"{today} | {title} | {grok}| "
         for i in tags:
-            row += f"#{i} "
+            if i:
+                clean_tag = i.split()[0]
+                row += f"#{clean_tag} "
+                
         row += f"| [[{note}#{title}]]\n"
 
         return row
